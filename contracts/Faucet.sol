@@ -24,8 +24,8 @@ contract Faucet {
     }
 
     function getToken() public {
-        require(_timeRemaining(block.timestamp, _getTime[msg.sender]) <= 0, "Faucet: is available each three days");
-        _getTime[msg.sender] = block.timestamp;
+        require(block.timestamp >= _getTime[msg.sender], "Faucet: is available each three days");
+        _getTime[msg.sender] = block.timestamp + 3 days;
         _token.transferFrom(_tokenOwner, msg.sender, _amountReceived);
     }
 
@@ -41,15 +41,15 @@ contract Faucet {
         return _amountReceived;
     }
 
-    function timeRemainingOf(address account) public view returns (int256) {
-        if (_timeRemaining(block.timestamp, _getTime[account]) <= 0) {
-            return 0;
-        } else {
-            return _timeRemaining(block.timestamp, _getTime[account]);
-        }
+    function remainingSupply() public view returns (uint256) {
+        return _token.allowance(tokenOwner(), address(this));
     }
 
-    function _timeRemaining(uint256 timestamp, uint256 getTime) private pure returns (int256) {
-        return int256(3 days - (timestamp - getTime));
+    function timeRemainingOf(address account) public view returns (uint256) {
+        if (_getTime[account] == 0 || _getTime[account] < block.timestamp) {
+            return 0;
+        } else {
+            return _getTime[account] - block.timestamp;
+        }
     }
 }
