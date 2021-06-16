@@ -1,10 +1,10 @@
-require('@nomiclabs/hardhat-waffle');
-require('@nomiclabs/hardhat-solhint');
-require('hardhat-docgen');
+require('@nomiclabs/hardhat-waffle')
+require('@nomiclabs/hardhat-solhint')
+require('hardhat-docgen')
 
-require('dotenv').config();
-const INFURA_PROJECT_ID = process.env.INFURA_PROJECT_ID;
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
+require('dotenv').config()
+const INFURA_PROJECT_ID = process.env.INFURA_PROJECT_ID
+const PRIVATE_KEY = process.env.PRIVATE_KEY
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -36,6 +36,6 @@ module.exports = {
   docgen: {
     path: './docs',
     clear: true,
-    runOnCompile: true,
+    runOnCompile: false,
   },
-};
+}
